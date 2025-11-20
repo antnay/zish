@@ -1,0 +1,27 @@
+# Zig build artifacts
+.zig-cache/
+zig-out/
+
+# Executables
+*.exe
+*.o
+*.obj
+*.lib
+*.a
+*.so
+*.dylib
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.swp
+*.bak
+*~
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# Other temporary files
+*.tmp
+*.log
