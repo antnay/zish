@@ -31,7 +31,7 @@ const LexarState = enum {
     s_single_quote,
     s_double_quote,
     s_esc,
-    s_esc_dq,
+    s_esc_dqote,
     s_op,
 };
 
@@ -40,7 +40,7 @@ const Lexar = struct {
     pos: usize,
     len: usize,
     state: LexarState,
-    tokens: []Token,
+    tokens: []const Token,
     token_count: usize,
     token_capacity: usize,
     buffer: []const u8,
@@ -56,7 +56,7 @@ fn init(allocator: Allocator, input: []const u8) !Lexar {
         .input = input,
         .pos = 0,
         .len = input.len,
-        .state = LexarState.s_start,
+        .state = .s_start,
         .token_count = 0,
         .token_capacity = token_capacity,
         .buffer_len = 0,
@@ -85,7 +85,6 @@ fn lex(allocator: Allocator, l: *Lexar) void {
                     l.pos += 1;
                     continue;
                 }
-
                 switch (c) {
                     '\'' => {
                         l.state = .s_single_quote;
@@ -100,7 +99,7 @@ fn lex(allocator: Allocator, l: *Lexar) void {
                 }
             },
 
-            // LexarState.s_end:
+            .s_word => {},
             .s_single_quote => {
                 switch (c) {
                     '\'' => {
@@ -119,6 +118,9 @@ fn lex(allocator: Allocator, l: *Lexar) void {
                     },
                 }
             },
+            .s_esc => {},
+            .s_esc_dqote => {},
+            .s_op => {},
         }
     }
 }
